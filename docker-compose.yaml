@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  grafana:
+    build: './prometheus/grafana'
+    ports:
+      - 3000:3000
+#    volumes:
+#      - ./grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - ./prometheus:/prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
+
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+      - "5005:5005"
+    environment:
+      READ_LOGS_CRON: 0 * * * * ?
+      COMMON_LOGS_DIRECTORY: /opt/uzedo/logs/
+    volumes:
+      - C:/Users/ryanr/IdeaProjects/logs/:/opt/uzedo/logs/
+networks:
+  monitoring:

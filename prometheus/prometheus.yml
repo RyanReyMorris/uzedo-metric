@@ -1,0 +1,21 @@
+scrape_configs:
+  - job_name: 'gpn'
+    scrape_interval: 1m
+    metrics_path: '/metrics/gpn'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
+  - job_name: 'vtbl'
+    scrape_interval: 1m
+    metrics_path: '/metrics/vtbl'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
+  - job_name: 'rn'
+    scrape_interval: 1m
+    metrics_path: '/metrics/rn'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
+  - job_name: 'vankor'
+    scrape_interval: 1m
+    metrics_path: '/metrics/vankor'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
